@@ -1,228 +1,168 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MATOTA | Beta Öğrenme Portalı</title>
-    <link rel="icon" type="image/png" href="/assets/personal/fav.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MATOTA Dijital | Giriş</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root {
-            --color-primary: #7c3aed;
-            --color-primary-dark: #5b21b6;
-            --color-primary-light: #c084fc;
-            --color-primary-glow: rgba(124, 58, 237, .25);
-            --ink: #172033;
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        :root { --color-primary: #0284c7; --color-secondary: #06b6d4; }
+
+        .loading-ambient-bg {
+            background-color: #f8fafc;
+            background-image:
+                radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.16) 0%, transparent 45%),
+                radial-gradient(circle at 85% 25%, rgba(129, 140, 248, 0.14) 0%, transparent 45%),
+                radial-gradient(circle at 80% 80%, rgba(14, 165, 233, 0.16) 0%, transparent 45%),
+                radial-gradient(circle at 20% 85%, rgba(168, 85, 247, 0.12) 0%, transparent 45%),
+                radial-gradient(rgba(14, 165, 233, 0.05) 1.5px, transparent 1.5px);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 32px 32px;
         }
-        * { box-sizing: border-box; }
-        body {
-            font-family: "Plus Jakarta Sans", Inter, Arial, sans-serif;
-            background: #f7f8ff;
-            color: var(--ink);
-            overflow-x: hidden;
+
+        .glass-login-card {
+            background: rgba(255, 255, 255, 0.90);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1.5px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 30px 70px -15px rgba(2, 132, 199, 0.15), 0 15px 30px -10px rgba(15, 23, 42, 0.06);
         }
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            z-index: -2;
-            background:
-                radial-gradient(circle at 8% 5%, rgba(192, 132, 252, .28), transparent 32%),
-                radial-gradient(circle at 92% 12%, rgba(56, 189, 248, .22), transparent 30%),
-                radial-gradient(circle at 50% 100%, rgba(167, 139, 250, .18), transparent 38%);
+
+        @keyframes orbFloat1 {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.8; }
+            50% { transform: translate(60px, -45px) scale(1.18); opacity: 1; }
         }
-        body::after {
-            content: "";
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            opacity: .25;
-            pointer-events: none;
-            background-image: radial-gradient(#8b5cf6 1px, transparent 1px);
-            background-size: 28px 28px;
-            mask-image: linear-gradient(to bottom, black, transparent 75%);
+        @keyframes orbFloat2 {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.75; }
+            50% { transform: translate(-70px, 45px) scale(1.15); opacity: 0.95; }
         }
-        .glass {
-            background: rgba(255, 255, 255, .72);
-            border: 1px solid rgba(255, 255, 255, .85);
-            box-shadow: 0 18px 55px rgba(76, 29, 149, .10);
-            backdrop-filter: blur(22px);
-            -webkit-backdrop-filter: blur(22px);
+
+        .pulse-brand {
+            animation: pulseLogo 2.5s infinite cubic-bezier(0.4, 0, 0.6, 1);
         }
-        .card {
-            position: relative;
-            isolation: isolate;
-            overflow: hidden;
-            background: rgba(255, 255, 255, .82);
-            border: 1px solid rgba(255, 255, 255, .9);
-            box-shadow: 0 14px 35px rgba(30, 41, 59, .09);
-            transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease;
+        @keyframes pulseLogo {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 20px 0px rgba(2, 132, 199, 0.2); }
+            50% { transform: scale(1.05); box-shadow: 0 0 40px 10px rgba(2, 132, 199, 0.35); }
         }
-        .card::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            z-index: -1;
-            opacity: 0;
-            background: linear-gradient(135deg, rgba(124,58,237,.11), transparent 55%);
-            transition: opacity .35s ease;
-        }
-        .card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(167, 139, 250, .7);
-            box-shadow: 0 24px 55px rgba(76, 29, 149, .18);
-        }
-        .card:hover::after { opacity: 1; }
-        .card:active { transform: translateY(-3px) scale(.99); }
-        .hero-title { background: linear-gradient(100deg, #312e81, #7c3aed 45%, #0891b2); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .beta-pill { box-shadow: 0 8px 24px rgba(124,58,237,.22); }
-        .loading-orb { animation: floatOrb 7s ease-in-out infinite; }
-        .loading-orb:nth-child(2) { animation-delay: -2s; animation-duration: 9s; }
-        .loading-orb:nth-child(3) { animation-delay: -4s; animation-duration: 11s; }
-        .loading-ring { animation: spin 1.5s linear infinite; }
-        .lock-shield { box-shadow: 0 0 0 12px rgba(255,255,255,.08), 0 20px 60px rgba(127,29,29,.35); }
-        #game-view { background: #020617; }
-        @keyframes floatOrb { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(35px,-28px,0) scale(1.12); } }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
     </style>
-    <script src="/security-lock.js"></script>
 </head>
-<body class="min-h-screen">
-    <div id="loading" class="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden bg-[#f7f8ff] p-6 text-center">
-        <div class="absolute -top-32 -left-20 h-80 w-80 rounded-full bg-violet-300/30 blur-3xl loading-orb"></div>
-        <div class="absolute -right-24 top-20 h-96 w-96 rounded-full bg-cyan-300/25 blur-3xl loading-orb"></div>
-        <div class="absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-fuchsia-300/20 blur-3xl loading-orb"></div>
-        <div class="relative glass rounded-[2rem] px-8 py-10 max-w-sm w-full">
-            <div class="mx-auto mb-6 relative h-20 w-20 rounded-[1.7rem] bg-gradient-to-br from-violet-600 to-fuchsia-500 text-white flex items-center justify-center text-3xl shadow-xl shadow-violet-500/30">
-                <i class="fa-solid fa-flask"></i><span class="absolute -right-2 -top-2 h-7 w-7 rounded-full bg-cyan-400 border-4 border-white flex items-center justify-center text-[10px]"><i class="fa-solid fa-sparkles"></i></span>
+<body class="min-h-screen loading-ambient-bg flex items-center justify-center p-4 overflow-hidden">
+
+    <!-- Aurora küreleri -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden select-none">
+        <div class="absolute -top-32 -left-32 w-[32rem] h-[32rem] rounded-full bg-gradient-to-br from-sky-400/30 via-cyan-300/25 to-blue-500/20 filter blur-[100px]" style="animation: orbFloat1 11s ease-in-out infinite;"></div>
+        <div class="absolute -bottom-36 -right-36 w-[34rem] h-[34rem] rounded-full bg-gradient-to-tl from-indigo-400/30 via-purple-300/20 to-sky-400/25 filter blur-[110px]" style="animation: orbFloat2 13s ease-in-out infinite;"></div>
+    </div>
+
+    <!-- Giriş Kartı -->
+    <div id="login-card" class="relative z-10 w-full max-w-md p-8 sm:p-10 rounded-3xl glass-login-card flex flex-col items-center transition-all duration-500">
+        <div class="w-24 h-24 rounded-3xl bg-white border-2 border-slate-100 flex items-center justify-center p-4 shadow-xl shadow-slate-200/50 pulse-brand mb-5">
+            <i class="fa-solid fa-shapes text-4xl text-[var(--color-primary)]"></i>
+        </div>
+        <h1 class="text-2xl font-black uppercase tracking-tight text-slate-800 font-outfit">Güvenli Giriş</h1>
+        <p class="text-xs text-slate-500 font-semibold mt-1 mb-6">Devam etmek için erişim şifresini girin</p>
+
+        <div class="w-full space-y-4">
+            <div>
+                <label for="password-input" class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Erişim Şifresi</label>
+                <div class="relative">
+                    <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                    <input type="password" id="password-input" placeholder="••••••••" autocomplete="off"
+                        class="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition"
+                        onkeydown="if(event.key==='Enter') handleLogin()">
+                </div>
             </div>
-            <div class="inline-flex beta-pill items-center gap-2 rounded-full bg-violet-100 px-3 py-1 text-[10px] font-black uppercase tracking-[.2em] text-violet-700"><span class="h-2 w-2 rounded-full bg-violet-500 animate-pulse"></span>Beta erişimi</div>
-            <h1 class="mt-4 text-2xl font-black tracking-tight text-slate-900">Öğrenme alanın hazırlanıyor</h1>
-            <p class="mt-2 text-sm leading-6 text-slate-500">Güvenli içerik doğrulanıyor, maceran birazdan başlıyor.</p>
-            <div class="mt-7 h-1.5 overflow-hidden rounded-full bg-violet-100"><div class="h-full w-1/2 rounded-full bg-gradient-to-r from-violet-600 via-fuchsia-500 to-cyan-400 loading-ring"></div></div>
+
+            <p id="error-message" class="hidden text-xs font-bold text-rose-600 bg-rose-50 border border-rose-200 rounded-xl px-3 py-2 text-center">
+                <i class="fa-solid fa-circle-exclamation mr-1"></i> Hatalı şifre, tekrar deneyin.
+            </p>
+
+            <button onclick="handleLogin()" id="login-btn"
+                class="w-full py-3.5 rounded-2xl bg-[var(--color-primary)] hover:opacity-90 text-white font-black text-xs uppercase tracking-widest transition shadow-lg shadow-sky-500/25 flex items-center justify-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-arrow-right-to-bracket"></i> Giriş Yap
+            </button>
+        </div>
+
+        <div class="mt-6 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/[0.03] border border-slate-200/80">
+            <span class="relative flex h-2 w-2 shrink-0">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <i class="fa-solid fa-lock text-emerald-600 text-xs"></i>
+            <span class="text-[10px] font-bold tracking-tight text-slate-600">256-Bit Uçtan Uca Korumalı</span>
         </div>
     </div>
-    <div id="lock" class="hidden fixed inset-0 z-50 overflow-hidden bg-gradient-to-br from-rose-950 via-red-800 to-violet-950 text-white flex items-center justify-center p-6 text-center">
-        <div class="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-rose-400/20 blur-3xl"></div>
-        <div class="relative max-w-md glass !bg-white/10 !border-white/20 rounded-[2rem] p-9">
-            <div class="lock-shield mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-3xl bg-white/15 text-3xl text-rose-100"><i class="fa-solid fa-lock"></i></div>
-            <div class="text-[10px] font-black uppercase tracking-[.25em] text-rose-200">Güvenlik bildirimi</div>
-            <h1 class="mt-3 text-3xl font-black tracking-tight">BETA ERİŞİMİ KİLİTLİ</h1>
-            <p id="lock-message" class="mt-4 leading-6 text-rose-100"></p>
-        </div>
+
+    <!-- İframe alanı (başlangıçta gizli) -->
+    <div id="portal-container" class="hidden fixed inset-0 w-full h-full z-20">
+        <iframe id="portal-iframe" style="width:100%; height:100%; border:none;" allowfullscreen="true" allow="fullscreen; autoplay; clipboard-write"></iframe>
     </div>
-    <header id="header" class="hidden sticky top-0 z-10 glass border-b border-white/60">
-        <div class="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
-                <img id="logo" class="hidden w-12 h-12 object-contain rounded-2xl border border-white bg-white/80 p-1.5 shadow-sm" alt="Kurum logosu">
-                <div><h1 id="client-name" class="font-black uppercase tracking-tight text-slate-900">MATOTA</h1><p class="text-[10px] text-violet-600 font-black uppercase tracking-[.18em]">Beta içerik alanı</p></div>
-            </div>
-            <span id="beta-expiry" class="rounded-full bg-white/80 px-3 py-2 text-[10px] font-bold text-slate-500 text-right shadow-sm"></span>
-        </div>
-    </header>
-    <main id="portal" class="hidden max-w-7xl mx-auto px-5 py-10">
-        <div class="flex items-end justify-between gap-4 mb-6">
-            <div><div class="mb-2 inline-flex items-center gap-2 rounded-full bg-violet-100 px-3 py-1 text-[10px] font-black uppercase tracking-[.18em] text-violet-700"><i class="fa-solid fa-wand-magic-sparkles"></i> Sana özel seçkiler</div><h2 id="title" class="hero-title text-3xl sm:text-4xl font-black">Beta oyunları</h2><p class="text-sm text-slate-500 mt-2">Bu alanda yalnızca beta için yetkilendirilen oyunlar gösterilir.</p></div>
-            <button id="back" class="hidden rounded-2xl bg-white/80 px-4 py-2.5 text-xs font-black text-slate-700 shadow-sm border border-white hover:bg-white hover:text-violet-700"><i class="fa-solid fa-arrow-left mr-2"></i>Geri</button>
-        </div>
-        <div id="items" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
-    </main>
-    <div id="game-view" class="hidden fixed inset-0 z-40 flex flex-col">
-        <div class="h-16 shrink-0 bg-slate-900/95 border-b border-violet-500/20 px-4 sm:px-6 flex items-center justify-between gap-3">
-            <div class="flex min-w-0 items-center gap-3"><span class="rounded-xl bg-violet-500/20 px-2.5 py-1 text-[10px] font-black uppercase text-violet-300">BETA</span><h2 id="game-title" class="text-white text-sm font-bold truncate"></h2></div>
-            <button id="close-game" class="bg-violet-600 hover:bg-violet-500 text-white rounded-xl px-4 py-2.5 text-xs font-black shadow-lg shadow-violet-900/30"><i class="fa-solid fa-arrow-left mr-2"></i>Portala dön</button>
-        </div>
-        <iframe id="game-frame" class="w-full flex-1 border-0" allowfullscreen allow="fullscreen; autoplay; clipboard-write" sandbox="allow-scripts allow-forms allow-popups allow-modals allow-same-origin"></iframe>
-    </div>
+
     <script>
-        const apiKey = new URLSearchParams(location.search).get('key');
-        let data = null, currentParent = null, historyStack = [];
-        const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
-        const device = /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'mobile' : 'desktop';
-        function showLock(message) {
-            document.getElementById('loading').classList.add('hidden');
-            document.getElementById('lock').classList.remove('hidden');
-            document.getElementById('lock-message').textContent = message || 'Beta lisansınız doğrulanamadı.';
+        const SUPABASE_PROJECT_ID = 'zbvycdcpumwboqeeylps';
+        const EDGE_FUNCTION_URL = `https://zbvycdcpumwboqeeylps.supabase.co/functions/v1/portal-password`;
+        const PORTAL_URL = 'https://embed.matota.online/loader.html?key=057b1300-a005-4440-8cda-964667303445';
+
+        // Oturum içinde tekrar şifre sormamak için (isteğe bağlı)
+        if (sessionStorage.getItem('matota_authenticated') === 'true') {
+            showPortal();
         }
-        function childrenOf(parentId) {
-            const itemIds = new Set((data.items || []).map(item => String(item.id)));
-            return (data.items || []).filter(item => {
-                if (parentId !== null) return String(item.parent_id) === String(parentId);
-                return !item.parent_id || item.parent_id === 'null' || item.parent_id === '' || !itemIds.has(String(item.parent_id));
-            });
-        }
-        function render(parentId = null) {
-            currentParent = parentId;
-            const items = childrenOf(parentId);
-            document.getElementById('back').classList.toggle('hidden', historyStack.length === 0);
-            document.getElementById('items').innerHTML = items.length ? items.map(item => {
-                const isFolder = Boolean(item.is_folder), title = esc(item.title || item.name || 'İsimsiz oyun');
-                const image = item.cover_image_url
-                    ? `<img src="${esc(item.cover_image_url)}" alt="${title}" class="h-44 w-full object-cover transition duration-500 group-hover:scale-110">`
-                    : `<div class="flex h-44 w-full items-center justify-center bg-gradient-to-br from-violet-100 via-fuchsia-50 to-cyan-50 text-5xl text-violet-400"><i class="fa-solid ${isFolder ? 'fa-folder-open' : 'fa-gamepad'}"></i></div>`;
-                const category = esc(item.category || (isFolder ? 'İçerik klasörü' : 'İnteraktif oyun'));
-                return `<button data-id="${esc(item.id)}" data-folder="${isFolder}" class="card group rounded-[1.35rem] text-left">
-                    <div class="relative overflow-hidden">${image}<div class="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-transparent to-transparent"></div>
-                        <span class="absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-[9px] font-black uppercase tracking-wider text-violet-700 shadow-sm">${isFolder ? 'Klasör' : 'Beta seçkisi'}</span>
-                        <span class="absolute bottom-3 left-3 text-[10px] font-bold text-white"><i class="fa-solid ${isFolder ? 'fa-layer-group' : 'fa-sparkles'} mr-1.5 text-cyan-300"></i>${category}</span>
-                    </div>
-                    <div class="p-5"><h3 class="font-black leading-snug text-slate-900">${title}</h3>
-                        <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-3 text-[10px] font-black uppercase tracking-wider text-violet-600"><span>${isFolder ? 'İçeriği keşfet' : 'Oyunu başlat'}</span><i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i></div>
-                    </div>
-                </button>`;
-            }).join('') : '<div class="col-span-full py-20 text-center text-slate-500 text-sm">Bu beta erişiminde henüz oyun seçilmemiş.</div>';
-            document.querySelectorAll('#items button').forEach(button => button.onclick = () => {
-                if (button.dataset.folder === 'true') { historyStack.push(currentParent); render(button.dataset.id); } else openGame(button.dataset.id);
-            });
-        }
-        async function openGame(id) {
-            const game = data.items.find(item => String(item.id) === String(id));
-            if (!game) return;
-            document.getElementById('game-title').textContent = game.title || game.name || 'Oyun';
-            document.getElementById('game-view').classList.remove('hidden');
-            try {
-                const response = await fetch('/api/game?id=' + encodeURIComponent(id) + '&key=' + encodeURIComponent(apiKey) + '&beta=true&device=' + device);
-                const result = await response.json();
-                if (!response.ok || !result.html) throw new Error(result.error || 'Oyun içeriği alınamadı.');
-                const client = data.client || {};
-                const injection = '<script>' +
-                    'window.EMBED_API_KEY=' + JSON.stringify(apiKey) + ';' +
-                    'window.EMBED_IS_BETA=true;' +
-                    'window.EMBED_IS_WHITE_LABEL=' + JSON.stringify(Boolean(client.is_white_label)) + ';' +
-                    'window.EMBED_CLIENT_LOGO=' + JSON.stringify(client.logo_url || '') + ';' +
-                    'window.EMBED_CLIENT_NAME=' + JSON.stringify(client.name || '') + ';' +
-                    'window.EMBED_CLIENT_COLOR=' + JSON.stringify(client.theme_primary_color || '#7c3aed') + ';' +
-                    '<\/script>';
-                document.getElementById('game-frame').src = URL.createObjectURL(new Blob([injection + result.html], { type: 'text/html' }));
-            } catch (error) { document.getElementById('game-view').classList.add('hidden'); showLock(error.message); }
-        }
-        window.addEventListener('message', event => {
-            const gameFrame = document.getElementById('game-frame');
-            if (!gameFrame || event.source !== gameFrame.contentWindow) return;
-            if (event.data && event.data.type === 'MATOTA_HANDSHAKE_INIT' && event.source) {
-                event.source.postMessage({ type: 'MATOTA_HANDSHAKE_ACK' }, '*');
+
+        async function handleLogin() {
+            const input = document.getElementById('password-input');
+            const errorEl = document.getElementById('error-message');
+            const btn = document.getElementById('login-btn');
+            const password = input.value.trim();
+
+            if (!password) {
+                errorEl.textContent = 'Lütfen şifreyi girin.';
+                errorEl.classList.remove('hidden');
+                return;
             }
-        });
-        document.getElementById('back').onclick = () => render(historyStack.pop() ?? null);
-        document.getElementById('close-game').onclick = () => { document.getElementById('game-view').classList.add('hidden'); document.getElementById('game-frame').src = 'about:blank'; };
-        (async function init() {
-            if (!apiKey) return showLock('Beta lisans anahtarı bulunamadı.');
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Doğrulanıyor...';
+            errorEl.classList.add('hidden');
+
             try {
-                const response = await fetch('/api/portal?key=' + encodeURIComponent(apiKey) + '&beta=true');
-                const result = await response.json();
-                if (!response.ok || !result.success || !result.is_beta) throw new Error(result.error || 'Beta erişimi reddedildi.');
-                data = result;
-                document.getElementById('client-name').textContent = result.client.name || 'MATOTA';
-                if (result.client.logo_url) { const logo = document.getElementById('logo'); logo.src = result.client.logo_url; logo.classList.remove('hidden'); }
-                if (result.client.beta_expires_at) document.getElementById('beta-expiry').textContent = 'Beta bitişi: ' + new Date(result.client.beta_expires_at).toLocaleDateString('tr-TR');
-                render();
-                document.getElementById('loading').classList.add('hidden');
-                document.getElementById('header').classList.remove('hidden');
-                document.getElementById('portal').classList.remove('hidden');
-            } catch (error) { showLock(error.message); }
-        })();
+                const res = await fetch(EDGE_FUNCTION_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password })
+                });
+
+                const data = await res.json();
+
+                if (res.ok && data.ok) {
+                    sessionStorage.setItem('matota_authenticated', 'true');
+                    showPortal();
+                } else {
+                    errorEl.innerHTML = '<i class="fa-solid fa-circle-exclamation mr-1"></i> ' + (data.error || 'Hatalı şifre, tekrar deneyin.');
+                    errorEl.classList.remove('hidden');
+                    input.value = '';
+                    input.focus();
+                }
+            } catch (err) {
+                errorEl.innerHTML = '<i class="fa-solid fa-plug-circle-xmark mr-1"></i> Bağlantı hatası. Lütfen tekrar deneyin.';
+                errorEl.classList.remove('hidden');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-arrow-right-to-bracket"></i> Giriş Yap';
+            }
+        }
+
+        function showPortal() {
+            document.getElementById('login-card').classList.add('hidden');
+            const container = document.getElementById('portal-container');
+            const iframe = document.getElementById('portal-iframe');
+            iframe.src = PORTAL_URL;
+            container.classList.remove('hidden');
+        }
+
+        // Sayfa yüklendiğinde input'a odaklan
+        document.getElementById('password-input')?.focus();
     </script>
 </body>
 </html>
